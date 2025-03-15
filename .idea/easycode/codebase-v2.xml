@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
+    <option name="projectFiles" value="$PROJECT_DIR$/customer/src/main/java/org/msa/one/customer/api/CustomerController.java;C:/Users/vmankivskyi/IdeaProjects/microservices-frauder/customer/src/main/java/org/msa/one/customer/CustomerApplication.java;C:/Users/vmankivskyi/IdeaProjects/microservices-frauder/customer/src/test/java/org/msa/one/customer/CustomerApplicationTests.java;C:/Users/vmankivskyi/IdeaProjects/microservices-frauder/customer/pom.xml" />
+  </component>
+</project>
