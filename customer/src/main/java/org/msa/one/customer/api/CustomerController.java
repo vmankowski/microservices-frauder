@@ -1,5 +1,6 @@
 package org.msa.one.customer.api;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.msa.one.customer.service.Customer;
 import org.msa.one.customer.service.CustomerService;
@@ -19,6 +20,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @SneakyThrows
     @PostMapping
     public void registerCustomer(@RequestBody CustomerRegistrationRequest customerRegistrationRequest) {
         log.info("Income request to register a new customer {}", customerRegistrationRequest);
