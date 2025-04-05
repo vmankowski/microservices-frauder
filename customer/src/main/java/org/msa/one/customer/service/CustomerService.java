@@ -29,6 +29,7 @@ public class CustomerService {
             log.warn("Customer is suspicious object!", customer);
             throw new IllegalAccessException("It's a fraudster with customer ID " + customer.getId());
         }
+        log.info("Customer is not a suspicious object!", customer);
 
         //TODO send notification to police
     }

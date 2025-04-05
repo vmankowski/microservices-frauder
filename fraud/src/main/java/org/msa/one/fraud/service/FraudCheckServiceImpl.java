@@ -6,6 +6,8 @@ import org.msa.one.fraud.repository.FraudCustomerEntity;
 import org.msa.one.fraud.repository.FraudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class FraudCheckServiceImpl implements FraudCheckService {
         log.info("Try to looking for customer with ID: {}", customerId);
         if (isSuspiciousCustomer == null) {
             log.info("Customer with ID {} does not exist!", customerId);
+            log.info("Customer with ID {} is not a suspicious object!", customerId);
             return false;
         }
 
@@ -28,5 +31,10 @@ public class FraudCheckServiceImpl implements FraudCheckService {
 
         log.info("I do not know what happen with customer {}", customerId);
         return false;
+    }
+
+    @Override
+    public List<FraudCustomerEntity> getAllFraudCustomers() {
+        return fraudRepository.findAll();
     }
 }
