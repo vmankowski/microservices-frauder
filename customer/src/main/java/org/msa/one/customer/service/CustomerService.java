@@ -23,14 +23,18 @@ public class CustomerService {
         //TODO validate name is not empty
         customerRepository.saveAndFlush(customer);
         //TODO is suspicious object
-        Boolean fraudCheckResponse = restTemplate.getForObject("http://localhost:8021/api/v1/fraud-check/{customerId}", Boolean.class, customer.getId());
+        Boolean fraudCheckResponse = restTemplate
+                .getForObject("http://FRAUD/api/v1/fraud-check/{customerId}", Boolean.class, customer.getId());
         log.info("Customer was saved to DB {}", customer);
+        //TODO check if customer is a fraudster
         if (fraudCheckResponse) {
             log.warn("Customer is suspicious object!", customer);
             throw new IllegalAccessException("It's a fraudster with customer ID " + customer.getId());
         }
+        log.info("Customer is not a suspicious object!", customer);
 
         //TODO send notification to police
+
     }
 
 }
