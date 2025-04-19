@@ -34,7 +34,9 @@ public class CustomerService {
         log.info("Customer is not a suspicious object!", customer);
 
         //TODO send notification to police
-
+        restTemplate.postForObject("http://NOTIFICATION/api/v1/notifications",
+                new NotificationRequest(Math.toIntExact(customer.getId()), customer.getName(), "Dear Customer, you have been registered!", customer.getEmail()),
+                Void.class);
     }
 
 }
