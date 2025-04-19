@@ -26,6 +26,7 @@ public class CustomerService {
         Boolean fraudCheckResponse = restTemplate
                 .getForObject("http://FRAUD/api/v1/fraud-check/{customerId}", Boolean.class, customer.getId());
         log.info("Customer was saved to DB {}", customer);
+        //TODO check if customer is a fraudster
         if (fraudCheckResponse) {
             log.warn("Customer is suspicious object!", customer);
             throw new IllegalAccessException("It's a fraudster with customer ID " + customer.getId());
@@ -33,6 +34,7 @@ public class CustomerService {
         log.info("Customer is not a suspicious object!", customer);
 
         //TODO send notification to police
+
     }
 
 }
