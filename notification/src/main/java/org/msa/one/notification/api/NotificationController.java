@@ -18,7 +18,6 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @SneakyThrows
     @PostMapping
     public void registerCustomer(@RequestBody NotificationRequest notificationRequest) {
         log.info("Income request to register a new customer {}", notificationRequest);

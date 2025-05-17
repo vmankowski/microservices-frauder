@@ -1,0 +1,21 @@
+@startuml
+actor Customer
+participant "Api GW" as api_gw
+participant "Customer Srv" as CustomerSrv
+participant "Fraud Srv" as FraudSrv
+participant "Notification Srv" as NotificationSrv
+
+activate api_gw
+Customer -> api_gw: POST: register customer
+activate CustomerSrv
+api_gw -> CustomerSrv: POST: create customer
+activate FraudSrv
+CustomerSrv -> FraudSrv: POST: check request
+FraudSrv -> FraudSrv: checking
+FraudSrv -> CustomerSrv: checked
+autonumber 40 10 "<font color=red><b>Message 0 "
+FraudSrv --[#red]> NotificationSrv: AMQP: notification
+CustomerSrv -> api_gw: check response
+deactivate FraudSrv
+api_gw -> Customer: user registered
+@enduml

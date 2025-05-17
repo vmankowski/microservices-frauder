@@ -1,6 +1,7 @@
 package org.msa.one.customer.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.msa.one.customer.amqp.RabbitMQMessageProducer;
 import org.msa.one.customer.repo.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,10 +12,12 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
-    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate) {
+    public CustomerService(CustomerRepository customerRepository, RestTemplate restTemplate, RabbitMQMessageProducer rabbitMQMessageProducer) {
         this.customerRepository = customerRepository;
         this.restTemplate = restTemplate;
+        this.rabbitMQMessageProducer = rabbitMQMessageProducer;
     }
 
     public void register(Customer customer) throws IllegalAccessException {
@@ -34,9 +37,17 @@ public class CustomerService {
         log.info("Customer is not a suspicious object!", customer);
 
         //TODO send notification to police
-        restTemplate.postForObject("http://NOTIFICATION/api/v1/notifications",
-                new NotificationRequest(Math.toIntExact(customer.getId()), customer.getName(), "Dear Customer, you have been registered!", customer.getEmail()),
-                Void.class);
+//        restTemplate.postForObject("http://NOTIFICATION/api/v1/notifications",
+//                new NotificationRequest(Math.toIntExact(customer.getId()), customer.getName(), "Dear Customer, you have been registered!", customer.getEmail()),
+//                Void.class);
+        rabbitMQMessageProducer.publish("internal.exchange",
+                "internal.notification.routing-key",
+                new NotificationRequest(
+                        Math.toIntExact(customer.getId()),
+                        customer.getName(),
+                        "Dear Customer, you have been registered!",
+                        customer.getEmail()));
     }
+
 
 }
